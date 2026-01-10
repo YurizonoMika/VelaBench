@@ -1,19 +1,30 @@
+<import name="about" src="../about/about"></import>
+
 <template>
-  <div class="pages">
-    <text class="title">欢迎使用VelaBench</text>
-    <text class="text">Benchmark For Wear & IoT</text>
-    <div class="btn {{isProcessing ? 'btn-disabled' : 'btn-normal'}}" @click="routeDetail">
-      <text class="btn-text">{{ isProcessing ? '跳转中...' : '运行性能测试' }}</text>
+  <swiper class="main-swiper" vertical="true" indicator="false" loop="false">
+    <div class="index">
+      <div class="content">
+        <text class="title">欢迎使用VelaBench</text>
+        <text class="subtitle">Benchmark For Wear & IoT</text>
+        <div class="main-btn {{isProcessing ? 'btn-disabled' : 'btn-normal'}}" @click="routeDetail">
+          <text class="btn-text">{{ isProcessing ? '开始跑分' : '运行性能测试' }}</text>
+        </div>
+      </div>
+      <div class="bottom-hint">
+        <text class="hint-text">关于 VelaBench ↑</text>
+      </div>
     </div>
-    <div class="btn" @click="routeAbout">
-      <text class="btn-text">关于VelaBench</text>
+    <div class="about">
+      <text style="font-size:50px; color: #ffffff;">关于VelaBench</text>
+      <text style="font-size:50px"> </text>
+      <text style="font-size:25px;text-align: center; color: #ffffff;">VelaBench是一款适用于Xiaomi VelaOS设备的性能基准测试软件</text>
+      <text style="font-size:25px;text-align: center; color: #ffffff;">由狐狐子制作，QQ:1019116346</text>
     </div>
-  </div>
+  </swiper>
 </template>
 
 <script>
 import router from "@system.router"
-import prompt from "@system.prompt"
 import app from '@system.app'
 
 export default {
@@ -31,30 +42,35 @@ export default {
     app.terminate()
   },
   routeDetail() {
-    if (this.isProcessing) {
-      return;
-    }
+    if (this.isProcessing) return;
     this.isProcessing = true;
     router.push({ 
       uri: "/pages/detail",
-      success: () => {
-      },
-      fail: () => {
-        this.isProcessing = false;
+      fail: () => { 
+        this.isProcessing = false; 
       }
     });
-    setTimeout(() => {
-      this.isProcessing = false;
+    setTimeout(() => { 
+      this.isProcessing = false; 
     }, 2000);
-  },
-  routeAbout() {
-    router.push({ uri: "/pages/about" })
   }
 }
 </script>
 
 <style>
-.pages {
+.main-swiper {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+}
+
+.index {
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.about {
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -63,43 +79,51 @@ export default {
   height: 100%;
 }
 
-.title {
-  font-size: 40px;
-  text-align: center;
-  color: #ffffff;
-  margin-bottom: 10px;
-}
-
-.text {
-  font-size: 24px;
-  color: #ffff00;
-  margin-bottom: 30px;
-}
-
-.btn {
-  width: 260px;
-  height: 70px;
-  margin: 10px 0;
-  border-radius: 35px;
-  background-color: #225beb;
+.content {
+  flex: 1;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.btn-text {
-  font-size: 30px;
-  color: #ffffff;
+.title { 
+  font-size: 40px; 
+  color: #ffffff; 
+  margin-bottom: 10px; 
+}
+.subtitle { 
+  font-size: 24px; 
+  color: #ffff00;
+  margin-bottom: 40px; 
 }
 
-.nav-container {
-  position: fixed;
-  bottom: 20px;
-  width: 100%;
+.main-btn {
+  width: 280px;
+  height: 80px;
+  border-radius: 40px;
   justify-content: center;
+  align-items: center;
+}
+.btn-normal { 
+  background-color: #225beb; 
+}
+.btn-disabled { 
+  background-color: #1a3a8a; 
+}
+.btn-text { 
+  font-size: 32px; 
+  color: #ffffff; 
 }
 
-.nav-text {
-  font-size: 20px;
-  color: #ffffff;
+.bottom-hint {
+  width: 100%;
+  height: 100%;
+  height: 80px; 
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.hint-text { 
+  font-size: 22px; color: #444444; 
 }
 </style>
