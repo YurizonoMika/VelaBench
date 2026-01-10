@@ -9,12 +9,14 @@
     "watch"
   ],
   "features": [
-    {
-      "name": "system.router"
-    }
+    { "name": "system.router" },
+    { "name": "system.configuration" },
+    { "name": "system.prompt" },
+    { "name": "system.app" },
+    { "name": "system.device" }
   ],
   "config": {
-    "logLevel": "log",
+    "logLevel": "debug",
     "designWidth": 480
   },
   "router": {
