@@ -1,56 +1,14 @@
 <template>
   <div class="pages">
-<<<<<<< Updated upstream
-    <text class="title" style="color:white">您的设备性能得分是：</text>
-    <text style="font-size:80px;color:red">{{benchres}}</text>
-    <div class="btn" onClick="goback"><text style="font-size:45px">Back</text></div>
-    <!-- <div class="back_bottom" @click="goback"><text style="font-size:40px">Nav_Back</text></class></div>
-  <div class="home_bottom" @click="goback"><text style="font-size:40px">Nav_Home</text></div>
-  <div class="menu_bottom" @click=""><text style="font-size:40px">Nav_Menu</text></div> -->
-
-=======
     <text class="title" style="color: white">您的设备性能得分是(V2)：</text>
     <text style="font-size: 80px; color: red">{{ benchres }}</text>
     <text class="title" style="color: yellow">不同版本测试得分结果不可直接对比</text>
     <div class="btn" onClick="gobackAlternative"><text style="font-size: 35px">Back</text></div>
     <div class="btn" onClick="uploadScore"><text style="font-size: 35px">存储成绩</text></div>
->>>>>>> Stashed changes
   </div>
 </template>
 
 <script>
-<<<<<<< Updated upstream
-import router from "@system.router"
-function getOperationsPerSecond() {
-      const operations = {
-        add: 0,
-        subtract: 0,
-        multiply: 0,
-        divide: 0
-      };
-    
-      const start = new Date().getTime();
-    
-      while (new Date().getTime() - start < 1000) {
-        operations.add++;
-        operations.subtract++;
-        operations.multiply++;
-        operations.divide++;
-      }
-    
-      return operations;
-    }
-    
-    function calculateAverage(operations) {
-      const totalOperations = Object.values(operations).reduce((sum, count) => sum + count, 0);
-      return totalOperations / Object.keys(operations).length;
-    }
-    
-    const operationsPerSecond = getOperationsPerSecond();
-    const averageOperationsPerSecond = calculateAverage(operationsPerSecond);
-    
-
-=======
 import file from "@system.file"
 import router from "@system.router"
 import device from "@system.device"
@@ -67,7 +25,6 @@ function getScore() {
     }
     return x
   }
->>>>>>> Stashed changes
 
   var t0 = Date.now()
   var check = runTest(5000)
@@ -117,17 +74,12 @@ export default {
     benchres: String(score)
   },
 
-<<<<<<< Updated upstream
-  goback(){
-  router.back({uri:"/pages/index"})
-=======
   goback() {
     router.back({uri: "/pages/index"})
   },
 
   gobackAlternative() {
     router.push({uri: "/pages/index"})
->>>>>>> Stashed changes
   }
 }
 </script>
