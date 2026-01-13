@@ -13,40 +13,44 @@ import file from "@system.file"
 import router from "@system.router"
 import device from "@system.device"
 import app from "@system.app"
-function getScore() {
-  function runTest(iters) {
-    var x = 1.1
-    for (var i = 0; i < iters; i++) {
-      x = x * 0.999 + 0.001
-      x = x * 0.998 + 0.002
-      x = x * 0.997 + 0.003
-      x = x * 0.996 + 0.004
-      x = x * 0.995 + 0.005
+function getWatchScore() {
+  function kernel(n) {
+    var x = 1.1,
+      y = 1.2
+    for (var i = 0; i < n; i++) {
+      x = x * 0.99 + 0.01
+      y = y * 0.98 + 0.02
+      x = x * 0.97 + 0.03
+      y = y * 0.96 + 0.04
+      x = x * 0.95 + 0.05
     }
-    return x
+    return x + y
   }
 
   var t0 = Date.now()
-  var check = runTest(5000)
+  var pre = kernel(1000)
   var t1 = Date.now()
+  var diff = t1 - t0
 
-  var diff = Math.max(t1 - t0, 0.1)
+  var iters = diff <= 0 ? 50000 : Math.floor(1000 * (150 / Math.max(diff, 1)))
 
-  var targetIters = Math.floor(5000 * (200 / diff))
-
-  targetIters = Math.min(targetIters, 2000000)
+  if (iters > 1000000) iters = 1000000
+  if (iters < 1000) iters = 1000
 
   var start = Date.now()
-  var finalCheck = runTest(targetIters)
+  var res = kernel(iters)
   var end = Date.now()
 
   var duration = Math.max(end - start, 1)
-  var mflops = (targetIters * 10) / (duration / 1000) / 1e6
 
-  return Math.floor(mflops * 200 + finalCheck)
+  var ops = (iters * 10) / (duration / 1000)
+
+  var finalScore = Math.floor(ops / 20)
+
+  return finalScore + (res > 0 ? 0 : 1)
 }
-var score = getScore() * 4
-console.log("设备得分:", score * 4)
+
+var score = getWatchScore()
 
 function uploadScore() {
   file.writeText({
@@ -85,38 +89,6 @@ export default {
 </script>
 
 <style>
-/* .back_bottom{
-  display: inline;
-  border-radius: 18px;
-  width: 105px;
-  height: 60px;
-  background-color:red;
-  color:black;
-  position:fixed;
-  top:140px;
-  right:160px;
-}
-.home_bottom{
-  display: inline;
-  border-radius: 18px;
-  width: 105px;
-  height: 60px;
-  background-color:red;
-  color:black;
-  position:fixed;
-  top:80px;
-  right:0px;
-}
-.menu_bottom{
-  display: inline;
-  border-radius: 18px;
-  width: 105px;
-  height: 60px;
-  background-color:red;
-  color:black;
-  position:fixed;
-  top:20px;
-  left:160px; */
 .btn {
   width: 180px;
   height: 80px;
