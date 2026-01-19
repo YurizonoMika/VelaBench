@@ -1,13 +1,8 @@
 {
   "package": "com.slyfox.velabench",
   "name": "VelaBench性能测试",
-<<<<<<< Updated upstream
-  "versionName": "2.0.0",
-  "versionCode": 3,
-=======
   "versionName": "2.1.0",
   "versionCode": 4,
->>>>>>> Stashed changes
   "minPlatformVersion": 1000,
   "icon": "/common/logo.png",
   "deviceTypeList": [
