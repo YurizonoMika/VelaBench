@@ -1,0 +1,179 @@
+<template>
+  <div class="container">
+    <div class="dashboard">
+      <text class="status-text">{{ status }}</text>
+      <text class="score-text" if="{{ gpuScore > 0 }}">{{ gpuScore }}</text>
+      <div class="stats-row" if="{{ isRunning }}">
+        <text class="stats-item">负载量: {{ particleCount }}</text>
+        <text class="stats-item">帧率: {{ currentFPS }}</text>
+      </div>
+    </div>
+
+    <stack class="test-area">
+      <div
+        for="{{ particles }}"
+        class="particle"
+        style="left: {{ $item.x }}; top: {{ $item.y }}; background-color: {{ $item.color }};"
+      ></div>
+    </stack>
+
+    <div class="action-btn" onclick="startStressTest">
+      <text class="btn-text">{{ isRunning ? "测试中..." : "开始图形测定" }}</text>
+    </div>
+  </div>
+</template>
+
+<style>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000000;
+  width: 100%;
+  height: 100%;
+}
+.dashboard {
+  margin-top: 30px;
+  align-items: center;
+  height: 120px;
+}
+.status-text {
+  color: #888888;
+  font-size: 16px;
+}
+.score-text {
+  color: #00ffcc;
+  font-size: 54px;
+  font-weight: bold;
+}
+.stats-row {
+  flex-direction: row;
+}
+.stats-item {
+  color: #555555;
+  font-size: 14px;
+  margin: 0 10px;
+}
+
+.test-area {
+  width: 300px;
+  height: 300px;
+  background-color: #111111;
+  border: 1px solid #333333;
+}
+
+.particle {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  position: absolute;
+}
+
+.action-btn {
+  width: 240px;
+  height: 60px;
+  background-color: #007aff;
+  border-radius: 30px;
+  margin-top: 20px;
+  justify-content: center;
+}
+.btn-text {
+  color: #ffffff;
+  font-size: 25px;
+}
+</style>
+
+<script>
+export default {
+  data: {
+    gpuScore: 0,
+    status: "Ready",
+    isRunning: false,
+    currentFPS: 0,
+    particleCount: 0,
+    particles: []
+  },
+
+  startStressTest() {
+    console.info("[VelaBench] 检测到点击，进入 startStressTest")
+
+    try {
+      // 在快应用/Vela新标准中，直接赋值即可触发 UI 更新
+      console.log("[VelaBench] 尝试直接赋值更新 UI...")
+      this.isRunning = true
+      this.status = "正在计算..."
+      this.gpuScore = 0
+      this.particles = []
+
+      this.startTime = Date.now()
+      this.frameCount = 0
+      this.active = true
+
+      console.log("[VelaBench] 赋值成功，准备进入循环")
+
+      setTimeout(() => {
+        this.runLoop()
+      }, 50)
+    } catch (err) {
+      console.error("[VelaBench] 赋值失败: " + err.message)
+    }
+  },
+
+  runLoop() {
+    if (!this.active) return
+
+    try {
+      this.frameCount++
+      const now = Date.now()
+      const elapsed = now - this.startTime
+
+      // 更新逻辑
+      if (elapsed >= 1000) {
+        const fps = Math.round((this.frameCount * 1000) / elapsed)
+        console.log(`[VelaBench] FPS: ${fps}, 粒子: ${this.particles.length}`)
+
+        this.currentFPS = fps
+
+        if (fps < 18 && this.particles.length > 15) {
+          this.active = false
+          this.gpuScore = Math.floor(this.particles.length * fps * 20)
+          this.status = "测定完成"
+          this.isRunning = false
+          return
+        }
+
+        // 增加 5 个粒子
+        for (let i = 0; i < 5; i++) {
+          this.particles.push({
+            x: Math.random() * 200,
+            y: Math.random() * 200,
+            vx: Math.random() * 10 - 5,
+            vy: Math.random() * 10 - 5,
+            color: "#66ccff"
+          })
+        }
+        this.particleCount = this.particles.length
+
+        this.startTime = now
+        this.frameCount = 0
+      } else {
+        // 坐标更新
+        this.particles = this.particles.map((p) => {
+          let nx = p.x + p.vx
+          let ny = p.y + p.vy
+          if (nx < 0 || nx > 280) p.vx *= -1
+          if (ny < 0 || ny > 280) p.vy *= -1
+          return {...p, x: nx, y: ny}
+        })
+      }
+
+      setTimeout(() => {
+        this.runLoop()
+      }, 40)
+    } catch (e) {
+      console.error("[VelaBench] runLoop 崩溃: " + e.message)
+      this.active = false
+    }
+  }
+}
+</script>
