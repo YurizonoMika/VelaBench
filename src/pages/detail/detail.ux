@@ -3,7 +3,7 @@
     <text class="title" style="color: white">您的设备性能得分是(V2)：</text>
     <text style="font-size: 80px; color: red">{{ benchres }}</text>
     <text class="title" style="color: yellow">不同版本测试得分结果不可直接对比</text>
-    <div class="btn" onClick="gobackAlternative"><text style="font-size: 35px">Back</text></div>
+    <div class="btn" onClick="goback"><text style="font-size: 35px">Back</text></div>
     <div class="btn" onClick="uploadScore"><text style="font-size: 35px">存储成绩</text></div>
   </div>
 </template>
@@ -79,11 +79,11 @@ export default {
   },
 
   goback() {
-    router.back({uri: "/pages/index"})
+    router.back({uri: "pages/index"})
   },
 
   gobackAlternative() {
-    router.push({uri: "/pages/index"})
+    router.push({uri: "pages/index"})
   }
 }
 </script>

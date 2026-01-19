@@ -20,10 +20,23 @@
     <div class="action-btn" onclick="startStressTest">
       <text class="btn-text">{{ isRunning ? "测试中..." : "开始图形测定" }}</text>
     </div>
+    <div class="btn" @click="goback"><text style="font-size: 35px">Back</text></div>
   </div>
 </template>
 
 <style>
+.btn {
+  width: 180px;
+  height: 80px;
+  margin-top: 20px;
+  border-radius: 40px;
+  background-color: #225beb;
+  font-size: 5px;
+  color: #ffffff;
+  justify-content: center;
+  align-content: center;
+  margin: 20px;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -84,7 +97,12 @@
 </style>
 
 <script>
+import router from "@system.router"
 export default {
+  goback() {
+    router.back({uri: "pages/index"})
+  },
+
   data: {
     gpuScore: 0,
     status: "Ready",

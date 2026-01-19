@@ -8,15 +8,11 @@
           class="main-btn {{ isProcessing ? 'btn-disabled' : 'btn-normal' }}"
           @click="routeDetail"
         >
-<<<<<<< Updated upstream
-          <text class="btn-text">{{ isProcessing ? "运行中" : "运行性能测试" }}</text>
-=======
           <text class="btn-text">{{ isProcessing ? "你先别急" : "运行性能测试" }}</text>
         </div>
         <text>\n</text>
         <div class="main-btn {{ isProcessing ? 'btn-disabled' : 'btn-normal' }}" @click="routeGPU">
           <text class="btn-text" style="font-size: 28px">图形性能测试(预览版)</text>
->>>>>>> Stashed changes
         </div>
       </div>
       <div class="bottom-hint">
@@ -27,11 +23,7 @@
       <text style="font-size: 50px; color: #ffffff">关于VelaBench</text>
       <text style="font-size: 50px"></text>
       <text style="font-size: 25px; text-align: center; color: #ffffff">
-<<<<<<< Updated upstream
-        VelaBench是一款适用于Xiaomi VelaOS设备的性能基准测试软件
-=======
         VelaBench是一款适用于Xiaomi VelaOS的性能基准测试软件
->>>>>>> Stashed changes
       </text>
       <text style="font-size: 25px; text-align: center; color: #ffffff">
         GitHub:YurizonoMika/VelaBench
@@ -62,7 +54,7 @@ export default {
     if (this.isProcessing) return
     this.isProcessing = true
     router.push({
-      uri: "/pages/detail",
+      uri: "pages/detail",
       fail: () => {
         this.isProcessing = false
       }
@@ -70,8 +62,6 @@ export default {
     setTimeout(() => {
       this.isProcessing = false
     }, 2000)
-<<<<<<< Updated upstream
-=======
   },
   routeGPU() {
     console.log("click!")
@@ -81,7 +71,6 @@ export default {
         console.log("error" + err.code)
       }
     })
->>>>>>> Stashed changes
   }
 }
 </script>
@@ -139,11 +128,7 @@ export default {
   background-color: #225beb;
 }
 .btn-disabled {
-<<<<<<< Updated upstream
-  background-color: #1e2e55;
-=======
   background-color: #04102f;
->>>>>>> Stashed changes
 }
 .btn-text {
   font-size: 32px;
