@@ -1,6 +1,6 @@
 {
   "name": "VelaBench",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "description": "",
   "engines": {
     "node": ">=8.10"

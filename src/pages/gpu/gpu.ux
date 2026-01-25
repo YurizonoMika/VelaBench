@@ -2,7 +2,10 @@
   <div class="container">
     <div class="dashboard">
       <text class="status-text">{{ status }}</text>
+      <text class="status-text"></text>
       <text class="score-text" if="{{ gpuScore > 0 }}">{{ gpuScore }}</text>
+      <text class="status-text"></text>
+      <text class="status-text" if="{{ gpuScore > 0 }}">不同版本得分不具有可比性</text>
       <div class="stats-row" if="{{ isRunning }}">
         <text class="stats-item">负载量: {{ particleCount }}</text>
         <text class="stats-item">帧率: {{ currentFPS }}</text>
@@ -18,9 +21,9 @@
     </stack>
 
     <div class="action-btn" onclick="startStressTest">
-      <text class="btn-text">{{ isRunning ? "测试中..." : "开始图形测定" }}</text>
+      <text class="btn-text">{{ isRunning ? "测试中..." : "开始图形性能测试" }}</text>
     </div>
-    <div class="btn" @click="goback"><text style="font-size: 35px">Back</text></div>
+    <div class="action-btn" @click="goback"><text class="btn-text">回到主页</text></div>
   </div>
 </template>
 
@@ -46,17 +49,20 @@
   height: 100%;
 }
 .dashboard {
+  flex-direction: column;
   margin-top: 30px;
   align-items: center;
   height: 120px;
 }
 .status-text {
+  flex-direction: column;
   color: #888888;
-  font-size: 16px;
+  font-size: 20px;
 }
 .score-text {
+  flex-direction: column;
   color: #00ffcc;
-  font-size: 54px;
+  font-size: 35px;
   font-weight: bold;
 }
 .stats-row {
@@ -64,13 +70,13 @@
 }
 .stats-item {
   color: #555555;
-  font-size: 14px;
+  font-size: 25px;
   margin: 0 10px;
 }
 
 .test-area {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   background-color: #111111;
   border: 1px solid #333333;
 }
@@ -109,14 +115,14 @@ export default {
     isRunning: false,
     currentFPS: 0,
     particleCount: 0,
-    particles: []
+    particles: [],
+    totalFPS: 0
   },
 
   startStressTest() {
     console.info("[VelaBench] 检测到点击，进入 startStressTest")
 
     try {
-      // 在快应用/Vela新标准中，直接赋值即可触发 UI 更新
       console.log("[VelaBench] 尝试直接赋值更新 UI...")
       this.isRunning = true
       this.status = "正在计算..."
@@ -147,24 +153,25 @@ export default {
 
       // 更新逻辑
       if (elapsed >= 1000) {
-        const fps = Math.round((this.frameCount * 1000) / elapsed)
+        const fps = Math.round(this.frameCount)
         console.log(`[VelaBench] FPS: ${fps}, 粒子: ${this.particles.length}`)
 
         this.currentFPS = fps
 
-        if (fps < 18 && this.particles.length > 15) {
+        if (fps < 20 && this.particles.length > 15) {
           this.active = false
           this.gpuScore = Math.floor(this.particles.length * fps * 20)
-          this.status = "测定完成"
+          this.status = "测试结束"
           this.isRunning = false
+          console.log(this.totalFPS)
           return
         }
 
         // 增加 5 个粒子
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 1; i++) {
           this.particles.push({
-            x: Math.random() * 200,
-            y: Math.random() * 200,
+            x: Math.random() * 150,
+            y: Math.random() * 150,
             vx: Math.random() * 10 - 5,
             vy: Math.random() * 10 - 5,
             color: "#66ccff"
@@ -179,8 +186,8 @@ export default {
         this.particles = this.particles.map((p) => {
           let nx = p.x + p.vx
           let ny = p.y + p.vy
-          if (nx < 0 || nx > 280) p.vx *= -1
-          if (ny < 0 || ny > 280) p.vy *= -1
+          if (nx < 0 || nx > 180) p.vx *= -1
+          if (ny < 0 || ny > 180) p.vy *= -1
           return {...p, x: nx, y: ny}
         })
       }
