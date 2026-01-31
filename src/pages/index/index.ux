@@ -34,7 +34,7 @@
       <div class="versionInfoContent" style="align-items: center">
         <image src="/common/logo.png" />
         <text class="title">VelaBench</text>
-        <text class="commonText">版本 {{ ver }}</text>
+        <text class="commonText">主程序版本 {{ ver }}</text>
       </div>
       <text></text>
       <div class="versionInfoContent">
