@@ -202,6 +202,7 @@ export default {
           this.status = "测试结束"
           this.isRunning = false
           console.log(this.totalFPS)
+          global.runGC()
           return
         }
 

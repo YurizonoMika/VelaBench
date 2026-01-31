@@ -57,6 +57,8 @@ function getWatchScore() {
 
   var finalScore = Math.floor(ops / 20)
 
+  global.runGC()
+
   return finalScore + (res > 0 ? 0 : 1)
 }
 

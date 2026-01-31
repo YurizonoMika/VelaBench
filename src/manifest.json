@@ -1,8 +1,8 @@
 {
   "package": "com.slyfox.velabench",
   "name": "VelaBench性能测试",
-  "versionName": "2.1.2",
-  "versionCode": 5,
+  "versionName": "2.1.4",
+  "versionCode": 6,
   "minPlatformVersion": 1000,
   "icon": "/common/logo.png",
   "deviceTypeList": [

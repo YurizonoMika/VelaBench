@@ -71,6 +71,7 @@ export default {
     ver: currentVersion
   },
   onInit() {
+    global.runGC()
     console.log("Index Page Init")
   },
   onShow() {
